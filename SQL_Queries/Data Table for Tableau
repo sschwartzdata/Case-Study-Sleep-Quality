@@ -1,0 +1,15 @@
+SELECT 
+CAST(CASE 
+    WHEN EXTRACT(HOUR FROM Start_Time__local_) >= 12
+    THEN Start_Time__local_
+    ELSE DATE_SUB(Start_Time__local_, INTERVAL 1 DAY)
+    END AS DATE) AS sleep_date ,
+SUM(Duration) / 60 AS duration_hrs,
+SUM(Deep__minutes_) / 60 AS total_deep_hrs,
+SUM(Light__minutes_) / 60 AS total_light_hrs,
+SUM(Interruption__minutes_) / 60 AS total_interpurt_hrs,
+SUM(Unknown__minutes_)/60 AS total_unknown_hrs,
+AVG(REM__minutes_ / Duration) AS avg_percent_rem_hrs,
+SUM(Tosses_and_Turns) AS total_toss_turns
+FROM `portfolio-335104.Sleep_Data.sleep_data`
+GROUP BY sleep_date
