@@ -1,10 +1,14 @@
-#installing tidyverse
+#installing tidyverse and reshape2
 install.packages("tidyverse")
+install.packages("reshape2")
+
 #adding tidyverse
 library(tidyverse)
+library(reshape2)
 
 #Pull in data
 sleep_data <- read_csv(file = "Data/sleep_data.csv")
+
 
 
 #added month column to sleep data
@@ -14,6 +18,12 @@ sleep_data <- sleep_data %>%
 #added quarter column
 sleep_data <- sleep_data %>%
   add_column(sleep_quarter = quarters(sleep_data$sleep_date))
+
+#make a long format of the data
+sleep_data_long <- melt(sleep_data, id.vars = c("sleep_date","sleep_month","sleep_quarter","duration_hrs","total_toss_turns","avg_percent_rem_hrs"))
+
+head(sleep_data_long)                            #checking to see if correctly formatted into long data
+
 
 #Average  and standard deviation of sleep duration
 ave_duration <- mean(sleep_data$duration_hrs)
@@ -36,4 +46,15 @@ yfit<-dnorm(xfit,mean=mean(dur),sd=sd(dur))
 yfit <- yfit*diff(h$mids[1:2])*length(dur) 
 
 lines(xfit, yfit, col="blue", lwd=2)
+
+#stacked bar graph - need to fix it so that it is the average, not the total
+#attempting to make a table that has the average sleep stage per month
+long_average <- sleep_data_long[which(sleep_data_long$sleep_date>"2014-01-17"),] #%>% group_by(sleep_month) %>% summarise(me = mean(value))
+head(long_average)
+
+n <- ggplot(long_average, aes(fill=variable,x=sleep_month, y=value, color=variable))
+n + geom_bar(position = "stack", stat="identity")
+
+summary(sleep_data)
+
 
