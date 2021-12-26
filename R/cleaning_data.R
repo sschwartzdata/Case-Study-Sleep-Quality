@@ -1,10 +1,12 @@
 #installing tidyverse and reshape2
 install.packages("tidyverse")
 install.packages("reshape2")
+install.packages("lintr")
 
 #adding tidyverse
 library(tidyverse)
 library(reshape2)
+library(lintr)
 
 #Pull in data
 sleep_data <- read_csv(file = "Data/sleep_data.csv")
@@ -20,9 +22,12 @@ sleep_data <- sleep_data %>%
   add_column(sleep_quarter = quarters(sleep_data$sleep_date))
 
 #make a long format of the data
-sleep_data_long <- melt(sleep_data, id.vars = c("sleep_date","sleep_month","sleep_quarter","duration_hrs","total_toss_turns","avg_percent_rem_hrs"))
+sleep_data_long <- melt(sleep_data, id.vars = c("sleep_date", "sleep_month",
+ "sleep_quarter", "duration_hrs", "total_toss_turns",
+ "avg_percent_rem_hrs"))
 
-head(sleep_data_long)                            #checking to see if correctly formatted into long data
+#checking to see if correctly formatted
+head(sleep_data_long)
 
 
 #Average  and standard deviation of sleep duration
@@ -32,29 +37,29 @@ std_duration <- sqrt(var(sleep_data$duration_hrs))
 #plotting a bar plot of sleep duration with different colors for the months
 sleep_data %>%
   ggplot() +
-  geom_bar(data=sleep_data, mapping=aes(x=duration_hrs, color=sleep_month)) +
-  xlab("Sleep Duration (hrs)") + 
-  ylab("Days") + 
+  geom_bar(data = sleep_data, mapping = aes
+  (x = duration_hrs, color = sleep_month)) +
+  xlab("Sleep Duration (hrs)") +
+  ylab("Days") +
   ggtitle("Sleep Duration")
 
 #histogram with normal distribution
 dur <- sleep_data$duration_hrs
-h <- hist((sleep_data$duration_hrs), main="Sleep Duration", xlab="Sleep Duration (hrs)")
+h <- hist((sleep_data$duration_hrs), main = "Sleep Duration",
+  xlab = "Sleep Duration (hrs)")
 
-xfit<-seq(min(dur),max(dur),length=40) 
-yfit<-dnorm(xfit,mean=mean(dur),sd=sd(dur)) 
-yfit <- yfit*diff(h$mids[1:2])*length(dur) 
+xfit <- seq(min(dur), max(dur), length = 40)
+yfit <- dnorm(xfit, mean = mean(dur), sd = sd(dur))
+yfit <- yfit * diff(h$mids[1:2]) * length(dur)
 
-lines(xfit, yfit, col="blue", lwd=2)
+lines(xfit, yfit, col = "blue", lwd = 2)
 
 #stacked bar graph - need to fix it so that it is the average, not the total
 #attempting to make a table that has the average sleep stage per month
-long_average <- sleep_data_long[which(sleep_data_long$sleep_date>"2014-01-17"),] #%>% group_by(sleep_month) %>% summarise(me = mean(value))
+long_average <-
+  sleep_data_long[which(sleep_data_long$sleep_date > "2014-01-17")]
 head(long_average)
 
-n <- ggplot(long_average, aes(fill=variable,x=sleep_month, y=value, color=variable))
-n + geom_bar(position = "stack", stat="identity")
-
-summary(sleep_data)
-
-
+n <- ggplot(long_average, aes(fill = variable, x = sleep_month,
+ y = value, color = variable))
+n + geom_bar(position = "stack", stat = "identity")
