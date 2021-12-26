@@ -5,9 +5,7 @@ date: "12/22/2021"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
+
 
 ## R Markdown
 
@@ -15,9 +13,71 @@ This is an R Markdown document. Markdown is a simple formatting syntax for autho
 
 When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
 
-```{r cars}
-summary(cars)
+```{r installing libraries}
+install.packages("tidyverse")
+install.packages("reshape2")
 ```
+
+## Loading Libraries
+```{r loading libraries}
+library(tidyverse)
+library(reshape2)
+```
+
+## Pulling in the Sleep Data
+```{r pulling in data}
+sleep_data <- read_csv(file = "../Data/sleep_data.csv")
+```
+## Adding month and quarter of year columns to the data
+``` {r adding columns}
+sleep_data <- sleep_data %>%
+  add_column(sleep_month = months(sleep_data$sleep_date))
+sleep_data <- sleep_data %>%
+  add_column(sleep_quarter = quarters(sleep_data$sleep_date))
+```
+
+
+## Creating long form of the Data
+```{r long form data}
+sleep_data_long <- melt(sleep_data, id.vars = c("sleep_date","sleep_month","sleep_quarter","duration_hrs","total_toss_turns","avg_percent_rem_hrs"))
+```
+
+## Sleep Duration Stastistics
+``` {r duration Statistics}
+ave_duration <- mean(sleep_data$duration_hrs)
+std_duration <- sqrt(var(sleep_data$duration_hrs))
+# ave_duration = round(ave_duration, digits = 2)
+print(paste("Average sleep duration (hrs):", round(ave_duration, digits = 2)))
+print(paste("Standard deviation of sleep duration (hrs):", round(std_duration,digits = 2)))
+```
+
+
+# Plots
+
+## Plotting a bar plot of sleep duration with different colors for the months
+```{r bar plot - sleep duration}
+sleep_data %>%
+  ggplot() +
+  geom_bar(data=sleep_data, mapping=aes(x=duration_hrs, color=sleep_month)) +
+  xlab("Sleep Duration (hrs)") + 
+  ylab("Days") + 
+  ggtitle("Sleep Duration")
+```
+
+
+## histogram with normal distribution
+```{r plot: histtogram with normal distribution}
+dur <- sleep_data$duration_hrs
+h <- hist((sleep_data$duration_hrs), main="Sleep Duration", xlab="Sleep Duration (hrs)")
+
+xfit<-seq(min(dur),max(dur),length=40) 
+yfit<-dnorm(xfit,mean=mean(dur),sd=sd(dur)) 
+yfit <- yfit*diff(h$mids[1:2])*length(dur) 
+
+lines(xfit, yfit, col="blue", lwd=2)
+```
+
+
 
 ## Including Plots
 
