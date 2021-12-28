@@ -7,29 +7,31 @@ output: html_document
 
 
 
-## R Markdown
+## Sleep Study Report
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+This is an example of a sleep report template using R Markdown. This template 
+will automatically update all plots and statistics if new data if added. 
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
 
-```{r installing libraries}
+```{r installing libraries, inlcude=FALSE, echo=FALSE, results='hide', message=FALSE}
 install.packages("tidyverse")
 install.packages("reshape2")
+install.packages("ggpubr")
 ```
 
-## Loading Libraries
-```{r loading libraries}
+
+```{r loading libraries, inlcude = FALSE, echo=FALSE, results='hide', message=FALSE}
 library(tidyverse)
 library(reshape2)
+library(ggpubr)
 ```
 
-## Pulling in the Sleep Data
-```{r pulling in data}
+
+```{r pulling in data, inlcude = FALSE, echo=FALSE, message=FALSE}
 sleep_data <- read_csv(file = "../Data/sleep_data.csv")
 ```
-## Adding month and quarter of year columns to the data
-``` {r adding columns}
+
+``` {r adding columns, inlcude = FALSE, message=FALSE, echo=FALSE}
 sleep_data <- sleep_data %>%
   add_column(sleep_month = months(sleep_data$sleep_date))
 sleep_data <- sleep_data %>%
@@ -37,36 +39,42 @@ sleep_data <- sleep_data %>%
 ```
 
 
-## Creating long form of the Data
-```{r long form data}
+
+```{r long form data, inlcude=FALSE, message=FALSE, echo=FALSE}
 sleep_data_long <- melt(sleep_data, id.vars = c("sleep_date","sleep_month","sleep_quarter","duration_hrs","total_toss_turns","avg_percent_rem_hrs"))
 ```
 
 ## Sleep Duration Stastistics
-``` {r duration Statistics}
+The following table report the mean, standard deviation and variance for the duration of sleep for the individual. This includes 
+``` {r duration Statistics, message=FALSE, echo=FALSE}
 ave_duration <- mean(sleep_data$duration_hrs)
 std_duration <- sqrt(var(sleep_data$duration_hrs))
-# ave_duration = round(ave_duration, digits = 2)
-print(paste("Average sleep duration (hrs):", round(ave_duration, digits = 2)))
-print(paste("Standard deviation of sleep duration (hrs):", round(std_duration,digits = 2)))
+var_duration <- var(sleep_data$duration_hrs)
+#stat data frame
+stats <- data.frame(Statistics=c("Mean", "Standard Deviation", "Variance"),
+                    Results=c(round(ave_duration, digits = 2), round(std_duration,digits = 2), 
+                                  round(var_duration,digits = 2)))
+
+knitr::kable(stats)
 ```
 
 
 # Plots
 
 ## Plotting a bar plot of sleep duration with different colors for the months
-```{r bar plot - sleep duration}
+```{r bar plot - sleep duration, echo=FALSE}
 sleep_data %>%
   ggplot() +
   geom_bar(data=sleep_data, mapping=aes(x=duration_hrs, color=sleep_month)) +
   xlab("Sleep Duration (hrs)") + 
-  ylab("Days") + 
+  ylab("Frequency") + 
   ggtitle("Sleep Duration")
 ```
 
 
 ## histogram with normal distribution
-```{r plot: histtogram with normal distribution}
+This is an example of fitting a normal distribution with mean of and standard deviation of to ta histrogrma of the sleep durations. 
+```{r plot: histtogram with normal distribution, echo=FALSE}
 dur <- sleep_data$duration_hrs
 h <- hist((sleep_data$duration_hrs), main="Sleep Duration", xlab="Sleep Duration (hrs)")
 
@@ -78,13 +86,11 @@ lines(xfit, yfit, col="blue", lwd=2)
 ```
 
 
+##Testing Normality of the data using the Shapiro-Wilk Test
+This test will determine of the duration of sleep is consistent with a normal distribution.
+The hypothesis is that the data is consistent with a normal distribution.
+The results from the calculation is a p-value of 4.199e-10. Although the data may appear to be normally distributed when plotted as a histogram, the statistical test indicate that it is not consistent. This variation from the normal distribution, however, is much clearer when plotted in a Q-Q plot, as seen below.
 
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r plot: qqplot, echo=FALSE}
+ggqqplot(sleep_data$duration_hrs)
 ```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

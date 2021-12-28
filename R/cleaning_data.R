@@ -2,11 +2,17 @@
 install.packages("tidyverse")
 install.packages("reshape2")
 install.packages("lintr")
+install.packages("ggpubr")
+install.packages("nortest")
+install.packages("tseries")
 
 #adding tidyverse
 library(tidyverse)
 library(reshape2)
 library(lintr)
+library(ggpubr)
+library(nortest)
+library(tseries)
 
 #Pull in data
 sleep_data <- read_csv(file = "Data/sleep_data.csv")
@@ -33,6 +39,13 @@ head(sleep_data_long)
 #Average  and standard deviation of sleep duration
 ave_duration <- mean(sleep_data$duration_hrs)
 std_duration <- sqrt(var(sleep_data$duration_hrs))
+var_duration <- var(sleep_data$duration_hrs)
+#stat data frame
+stats <- data.frame(Statistics=c("Average", "Standard Deviation", "Variance"),
+                    Results=c(round(ave_duration, digits = 2), round(std_duration,digits = 2), 
+                                  round(var_duration,digits = 2)))
+
+view(stats)
 
 #plotting a bar plot of sleep duration with different colors for the months
 sleep_data %>%
@@ -63,3 +76,16 @@ head(long_average)
 n <- ggplot(long_average, aes(fill = variable, x = sleep_month,
  y = value, color = variable))
 n + geom_bar(position = "stack", stat = "identity")
+
+# testing normatilty of the data
+qqnorm(sleep_data$duration_hrs)
+shapiro.test(sleep_data$duration_hrs)
+tseries::jarque.bera.test(sleep_data$duration_hrs)
+ad.test(sleep_data$duration_hrs)
+cvm.test(sleep_data$duration_hrs)
+lillie.test(sleep_data$duration_hrs)
+pearson.test(sleep_data$duration_hrs)
+sf.test(sleep_data$duration_hrs)
+
+ggqqplot(sleep_data$duration_hrs)
+
