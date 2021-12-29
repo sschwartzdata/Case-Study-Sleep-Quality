@@ -41,7 +41,7 @@ sleep_data <- sleep_data %>%
 
 
 ```{r long form data, inlcude=FALSE, message=FALSE, echo=FALSE}
-sleep_data_long <- melt(sleep_data, id.vars = c("sleep_date","sleep_month","sleep_quarter","duration_hrs","total_toss_turns","avg_percent_rem_hrs"))
+sleep_data_long <- melt(sleep_data, id.vars = c("sleep_date","sleep_month","sleep_quarter","duration_hrs","total_toss_turns"))
 ```
 
 ## Sleep Duration Stastistics
@@ -72,7 +72,7 @@ sleep_data %>%
 ```
 
 
-## histogram with normal distribution
+## Histogram with Normal Distribution Overlay
 This is an example of fitting a normal distribution with mean of and standard deviation of to the histogram of the sleep duration. 
 ```{r plot: histtogram with normal distribution, echo=FALSE}
 dur <- sleep_data$duration_hrs
@@ -86,7 +86,7 @@ lines(xfit, yfit, col="blue", lwd=2)
 ```
 
 
-##Testing Normality of the data using the Shapiro-Wilk Test
+## Testing Normality of the data using the Shapiro-Wilk Test
 This test will determine of the duration of sleep is consistent with a normal distribution.
 The hypothesis is that the data is consistent with a normal distribution.
 The results from the calculation is a p-value of 4.199e-10. Although the data may appear to be normally distributed when plotted as a histogram, the statistical test indicate that it is not consistent. This variation from the normal distribution, however, is much clearer when plotted in a Q-Q plot, as seen below.
