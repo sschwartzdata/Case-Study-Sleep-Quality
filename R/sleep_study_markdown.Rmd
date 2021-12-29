@@ -14,9 +14,9 @@ will automatically update all plots and statistics if new data if added.
 
 
 ```{r installing libraries, inlcude=FALSE, echo=FALSE, results='hide', message=FALSE}
-install.packages("tidyverse", repos="http://cran.us.r-project.org")
-install.packages("reshape2", repos="http://cran.us.r-project.org")
-install.packages("ggpubr", repos="http://cran.us.r-project.org")
+packages <- c("tidyverse", "reshape2", "ggpubr")
+install.packages(setdiff(packages, rownames(installed.packages())),
+                 repos = "http://cran.us.r-project.org")
 ```
 
 
@@ -41,7 +41,9 @@ sleep_data <- sleep_data %>%
 
 
 ```{r long form data, inlcude=FALSE, message=FALSE, echo=FALSE}
-sleep_data_long <- melt(sleep_data, id.vars = c("sleep_date","sleep_month","sleep_quarter","duration_hrs","total_toss_turns"))
+sleep_data_long <- melt(sleep_data, id.vars = c("sleep_date", "sleep_month",
+                                                "sleep_quarter", "duration_hrs",
+                                                "total_toss_turns"))
 ```
 
 ## Sleep Duration Stastistics
@@ -51,9 +53,10 @@ ave_duration <- mean(sleep_data$duration_hrs)
 std_duration <- sqrt(var(sleep_data$duration_hrs))
 var_duration <- var(sleep_data$duration_hrs)
 #stat data frame
-stats <- data.frame(Statistics=c("Mean", "Standard Deviation", "Variance"),
-                    Results=c(round(ave_duration, digits = 2), round(std_duration,digits = 2), 
-                                  round(var_duration,digits = 2)))
+stats <- data.frame(Statistics = c("Mean", "Standard Deviation", "Variance"),
+                    Results = c(round(ave_duration, digits = 2),
+                                round(std_duration, digits = 2),
+                                round(var_duration, digits = 2)))
 
 knitr::kable(stats)
 ```
@@ -65,9 +68,10 @@ knitr::kable(stats)
 ```{r bar plot - sleep duration, echo=FALSE}
 sleep_data %>%
   ggplot() +
-  geom_bar(data=sleep_data, mapping=aes(x=duration_hrs, color=sleep_month)) +
-  xlab("Sleep Duration (hrs)") + 
-  ylab("Frequency") + 
+  geom_bar(data = sleep_data,
+           mapping = aes(x = duration_hrs, color = sleep_month)) +
+  xlab("Sleep Duration (hrs)") +
+  ylab("Frequency") +
   ggtitle("Sleep Duration")
 ```
 
@@ -76,13 +80,14 @@ sleep_data %>%
 This is an example of fitting a normal distribution with mean of and standard deviation of to the histogram of the sleep duration. 
 ```{r plot: histtogram with normal distribution, echo=FALSE}
 dur <- sleep_data$duration_hrs
-h <- hist((sleep_data$duration_hrs), main="Sleep Duration", xlab="Sleep Duration (hrs)")
+h <- hist((sleep_data$duration_hrs), main = "Sleep Duration",
+          xlab = "Sleep Duration (hrs)")
 
-xfit<-seq(min(dur),max(dur),length=40) 
-yfit<-dnorm(xfit,mean=mean(dur),sd=sd(dur)) 
-yfit <- yfit*diff(h$mids[1:2])*length(dur) 
+xfit <- seq(min(dur), max(dur), length = 40)
+yfit <- dnorm(xfit, mean = mean(dur), sd = sd(dur))
+yfit <- yfit * diff(h$mids[1:2]) * length(dur)
 
-lines(xfit, yfit, col="blue", lwd=2)
+lines(xfit, yfit, col = "blue", lwd = 2)
 ```
 
 
