@@ -14,9 +14,9 @@ will automatically update all plots and statistics if new data if added.
 
 
 ```{r installing libraries, inlcude=FALSE, echo=FALSE, results='hide', message=FALSE}
-install.packages("tidyverse")
-install.packages("reshape2")
-install.packages("ggpubr")
+install.packages("tidyverse", repos="http://cran.us.r-project.org")
+install.packages("reshape2", repos="http://cran.us.r-project.org")
+install.packages("ggpubr", repos="http://cran.us.r-project.org")
 ```
 
 
@@ -73,7 +73,7 @@ sleep_data %>%
 
 
 ## histogram with normal distribution
-This is an example of fitting a normal distribution with mean of and standard deviation of to ta histrogrma of the sleep durations. 
+This is an example of fitting a normal distribution with mean of and standard deviation of to the histogram of the sleep duration. 
 ```{r plot: histtogram with normal distribution, echo=FALSE}
 dur <- sleep_data$duration_hrs
 h <- hist((sleep_data$duration_hrs), main="Sleep Duration", xlab="Sleep Duration (hrs)")
