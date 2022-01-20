@@ -9,7 +9,7 @@ All of the SQL, R, and Python codes and files that were used in this analysis ca
 **Data Warehouse:** BigQuery <br>
 **Query Language:** SQL <br>
 **Coding Language:** R <br>
-**Data Visualizations:** R anf Tableau <br>
+**Data Visualizations:** R and Tableau <br>
 **Reporting:** R Markdown and Google Sheets
 
 ## Skills Demonstrated
