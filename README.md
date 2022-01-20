@@ -6,11 +6,11 @@ This is a Case Study of sleep data from a friend. The goal is to anwer their spe
 All of the SQL, R, and Python codes and files that were used in this analysis can be found in their respective project directories. 
 
 ## Tools Used
-Data Warehouse: BigQuery
-Query Language: SQL
-Coding Language: R
-Data Visualizations: R anf Tableau
-Reporting: R Markdown and Google Sheets
+**Data Warehouse:** BigQuery <br>
+**Query Language:** SQL <br>
+**Coding Language:** R <br>
+**Data Visualizations:** R anf Tableau <br>
+**Reporting:** R Markdown and Google Sheets
 
 ## Skills Demonstrated
 - Data cleaning using R and SQL
