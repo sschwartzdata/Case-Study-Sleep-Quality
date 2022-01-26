@@ -43,7 +43,14 @@ The questions asked by the client were the following:
 - Determine if the quality of sleep is better during the weekends or the weekdays.
 
 
+## Take-Aways
 
+- The sleep duration does not necessarily correlate with sleep quality.
+    - The duration of each sleep stage and tosses and turns correlate to the sleep duration in a positively.
+- Sleep duration does correlate to class schedules.
+    - The month of May has a significantly higher average sleep duration likely due to it being the month with the fewest days at school.
+- The average sleep duration over the entire period was within the recommended sleep range.
+    - The Mayo Clinic recommends at least 7 hours of sleep for an adult.
 
 
 ## Future work
