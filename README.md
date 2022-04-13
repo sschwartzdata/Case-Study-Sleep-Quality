@@ -42,6 +42,17 @@ The questions asked by the client were the following:
 - Determine which month and which day of the week have the highest sleep quality.
 - Determine if the quality of sleep is better during the weekends or the weekdays.
 
+## Results
+
+The average hours of sleep over the entire 1,372 day sleep study was 7.26 ± 1.47 hours. Below we can see the distibution of sleep durations, which is further differenciated by years. Ploting the distribution, it was easy to see two outliers at 14 and 16 hours. We can also see that the ditribution appears to be roughly normal.
+
+![My Image](Visualization/sleep_duration_hist.png)
+
+Next, to get a better understanding of the individual's sleep behaviour, it was useful to discover if there were any differences in the duration of sleep depending on the day of the week. Below is a stacked barchart depicting the average amount of sleep for each day of the week. Each day is broken down further into average amount of sleep in each sleep stage. There is a dark grey line representing the overall average hours of sleep, and the surrounding soft grey band is the confidence interval.
+
+This visualization was where some interesting observations started to come to light. This invividual sleeps significantly more on Friday nights and significantly less on Tuesday nights. 
+
+![My Image](Visualization/sleep_stages_day.png)
 
 ## Take-Aways
 
