@@ -50,12 +50,15 @@ The average hours of sleep over the entire 1,372 day sleep study was 7.26 ± 1.4
 
 Next, to get a better understanding of the individual's sleep behaviour, it was useful to discover if there were any differences in the duration of sleep depending on the day of the week. Below is a stacked barchart depicting the average amount of sleep for each day of the week. Each day is broken down further into average amount of sleep in each sleep stage. There is a dark grey line representing the overall average hours of sleep, and the surrounding soft grey band is the confidence interval.
 
-This visualization was where some interesting observations started to come to light. This invividual sleeps significantly more on Friday nights and significantly less on Tuesday nights. 
+This visualization was where some interesting observations started to come to light. This invividual sleeps significantly more on Friday nights and significantly less on Tuesday nights. After asking a few questions to the individual, they disclosed that they had an early morning classes on Wednesday and Friday, which would account for Tuesday and Thursday night's sleep being cut short. They also stated that they often slept in on Saturdays, which is clearly evident in the data.
+
+Due to the individual reveiving significanlty less sleep on Tuesday and Thursday nights, if they were interested in increasing their overall sleep duration they should focus on trying to get to sleep earlier on Tuesday and Thursday.
 
 ![My Image](Visualization/sleep_stages_day.png)
 
 ## Take-Aways
 
+- If the individual wanted to increase their overall average sleep duration, they should focus on trying to get to sleep earlier on Tuesday and Thursday mornings, since those where the nights that they had significantly less sleep.
 - The sleep duration does not necessarily correlate with sleep quality.
     - The duration of each sleep stage and tosses and turns correlate to the sleep duration in a positively.
 - Sleep duration does correlate to class schedules.
